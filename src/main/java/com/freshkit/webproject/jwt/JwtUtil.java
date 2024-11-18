@@ -35,14 +35,14 @@ public class JwtUtil {
 
     private String createToken(String memberId, String role, long expirationTime) {
         String token = Jwts.builder()
-                .setSubject(memberId)
-                .claim("role", role)
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
-                .signWith(SignatureAlgorithm.HS256, secret)
-                .compact();
-        logger.info("토큰 생성: {}", token);
-        return token;
+                .setSubject(memberId) // 사용자 ID를 토큰의 Subject로 설정
+                .claim("role", role) // 사용자 역할을 클레임에 포함
+                .setIssuedAt(new Date(System.currentTimeMillis())) // 토큰 발급 시간
+                .setExpiration(new Date(System.currentTimeMillis() + expirationTime)) // 만료 시간 설정
+                .signWith(SignatureAlgorithm.HS256, secret) // 서명 알고리즘과 비밀 키를 사용해 서명
+                .compact(); // 토큰 생성
+        logger.info("토큰 생성: {}", token); // 로그로 생성된 토큰 출력
+        return token; // 생성된 토큰 반환
     }
 
     public Boolean isExpired(String token) {
